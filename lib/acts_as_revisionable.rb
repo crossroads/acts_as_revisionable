@@ -251,7 +251,7 @@ module ActsAsRevisionable
     # Build a revision record based on this record
     def build_revision
       revision_options = self.class.acts_as_revisionable_options
-      revision = revision_record_class.new(self, revision_options[:encoding])
+      revision = revision_record_class.new(self)
       set_revision_meta_attributes(revision_options[:meta], revision)
 
       revision

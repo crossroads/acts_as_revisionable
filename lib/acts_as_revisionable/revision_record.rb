@@ -62,9 +62,10 @@ module ActsAsRevisionable
 
     # Create a revision record based on a record passed in. The attributes of the original record will
     # be serialized. If it uses the acts_as_revisionable behavior, associations will be revisioned as well.
-    def initialize(record, encoding = :ruby)
+    def initialize(record)
       super({})
-      @data_encoding = encoding
+      options = record.class.try(:acts_as_revisionable_options) || {}
+      @data_encoding = options[:encoding] || :ruby
       self.revisionable_type = record.class.base_class.name
       self.revisionable_id = record.id
       associations = record.class.revisionable_associations if record.class.respond_to?(:revisionable_associations)

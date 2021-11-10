@@ -219,7 +219,8 @@ describe ActsAsRevisionable::RevisionRecord do
 
   it "should be able to restore the original model using Ruby serialization" do
     attributes = {'id' => 1, 'name' => 'revision', 'value' => 5, 'test_revisionable_one_association_record_id' => nil}
-    revision = ActsAsRevisionable::RevisionRecord.new(TestRevisionableRecord.new(attributes), :ruby)
+    TestRevisionableRecord.acts_as_revisionable_options[:encoding] = :ruby
+    revision = ActsAsRevisionable::RevisionRecord.new(TestRevisionableRecord.new(attributes))
     revision.data = Zlib::Deflate.deflate(Marshal.dump(attributes))
     restored = revision.restore
     restored.class.should == TestRevisionableRecord
@@ -229,7 +230,8 @@ describe ActsAsRevisionable::RevisionRecord do
 
   it "should be able to restore the original model using YAML serialization" do
     attributes = {'id' => 1, 'name' => 'revision', 'value' => 5, 'test_revisionable_one_association_record_id' => nil}
-    revision = ActsAsRevisionable::RevisionRecord.new(TestRevisionableRecord.new(attributes), :yaml)
+    TestRevisionableRecord.acts_as_revisionable_options[:encoding] = :yaml
+    revision = ActsAsRevisionable::RevisionRecord.new(TestRevisionableRecord.new(attributes))
     revision.data = Zlib::Deflate.deflate(YAML.dump(attributes))
     restored = revision.restore
     restored.class.should == TestRevisionableRecord
@@ -239,7 +241,8 @@ describe ActsAsRevisionable::RevisionRecord do
 
   it "should be able to restore the original model using XML serialization" do
     attributes = {'id' => 1, 'name' => 'revision', 'value' => 5, 'test_revisionable_one_association_record_id' => nil}
-    revision = ActsAsRevisionable::RevisionRecord.new(TestRevisionableRecord.new(attributes), :xml)
+    TestRevisionableRecord.acts_as_revisionable_options[:encoding] = :xml
+    revision = ActsAsRevisionable::RevisionRecord.new(TestRevisionableRecord.new(attributes))
     revision.data = Zlib::Deflate.deflate(YAML.dump(attributes))
     restored = revision.restore
     restored.class.should == TestRevisionableRecord
